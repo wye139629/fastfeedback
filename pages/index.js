@@ -6,12 +6,7 @@ import { useAuth } from '../lib/auth'
 
 export default function Home() {
   const auth = useAuth()
-  const login = () =>{
-    auth.gitHubSignin()
-  }
-  const logout = () =>{
-    auth.signout()
-  }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -23,13 +18,19 @@ export default function Home() {
         <h1 className={styles.title}>
           fast feedback
         </h1>
-        <div>
-          <button onClick={login}>login</button>
-        </div>
-        <div>{auth?.user?.email}</div>
-        <div>
-          <button onClick={logout}>logout</button>
-        </div>
+        <p>
+          current user: {auth.user ? auth.user.email : ''}
+        </p>
+        {
+          auth.user ?
+          <div>
+            <button onClick={(e) => auth.signout()}>logout</button>
+          </div>
+          :
+          <div>
+            <button onClick={(e)=> auth.gitHubSignin()}>login</button>
+          </div>
+        }
       </main>
     </div>
   )
