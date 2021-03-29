@@ -2,26 +2,27 @@ import Head from 'next/head'
 import firebase from '../lib/firebase'
 import { auth } from 'firebase'
 import { useAuth } from '../lib/auth'
+import { Button, Heading, Text } from '@chakra-ui/react'
 
 export default function Home() {
   const auth = useAuth()
 
   return (
     <div>
-        <h1>
-          fast feedback
-        </h1>
-        <p>
+        <Heading fontWeight='400'>
+          Fast feedback
+        </Heading>
+        <Text>
           current user: {auth.user ? auth.user.email : ''}
-        </p>
+        </Text>
         {
           auth.user ?
           <div>
-            <button onClick={(e) => auth.signout()}>logout</button>
+            <Button colorScheme="teal" variant="solid" onClick={(e) => auth.signout()}>Signout</Button>
           </div>
           :
           <div>
-            <button onClick={(e)=> auth.gitHubSignin()}>login</button>
+            <Button colorScheme="teal" variant="outline" onClick={(e)=> auth.gitHubSignin()}>Signin</Button>
           </div>
         }
     </div>
