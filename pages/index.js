@@ -7,7 +7,7 @@ import Image from 'next/image'
 
 export default function Home() {
   const auth = useAuth()
-  console.log(process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY)
+  console.log(process.env.NEXT_PUBLIC_FIREBASE_PRIVATE_KEY.replace(/\\n/g,'\n'))
 
   return (
     <div>
