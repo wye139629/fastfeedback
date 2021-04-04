@@ -12,26 +12,58 @@ import {
   FormLabel,
   Button,
   Input,
+  useToast,
   useDisclosure
 } from '@chakra-ui/react';
 
 import { createSite } from 'lib/db';
+import { useAuth } from 'lib/auth';
+import fetcher from 'utils/fetcher'
+import { mutate } from 'swr'
 
-const AddSiteModal = () => {
+const AddSiteModal = ({children}) => {
   const initialRef = useRef();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {isOpen, onOpen, onClose } = useDisclosure();
   const { handleSubmit, register } = useForm();
+  const toast = useToast();
+  const auth = useAuth();
 
-  const onCreateSite = (values) => {
-    createSite(values);
-    console.log(values)
+  const onCreateSite = ({ site, url }) => {
+    const newSite = {
+      authorId: auth.user.uid,
+      createAt: new Date().toISOString(),
+      site,
+      url
+    }
+    createSite(newSite);
+    toast({
+      title: `Create site successfully`,
+      status: 'success',
+      duration: 5000,
+      isClosable: true
+    });
+
+    mutate('/api/sites', async (data)=>{
+      return [ ...data, newSite ]
+    }, false)
+
     onClose();
   };
 
   return (
     <>
-      <Button fontWeight="medium" maxW="200px" onClick={onOpen}>
-        Add Your First Site
+      <Button
+        backgroundColor="gray.900"
+        color="white"
+        fontWeight="medium"
+        _hover={{ bg: 'gray.700' }}
+        _active={{
+          bg: 'gray.800',
+          transform: 'scale(0.95)'
+        }}
+        onClick={onOpen}
+      >
+        {children}
       </Button>
       <Modal initialFocusRef={initialRef} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -45,7 +77,7 @@ const AddSiteModal = () => {
                 ref={initialRef}
                 placeholder="My site"
                 name="site"
-                {...register('site',{required: true})}
+                {...register('site', { required: true })}
               />
             </FormControl>
 
@@ -54,7 +86,7 @@ const AddSiteModal = () => {
               <Input
                 placeholder="https://website.com"
                 name="url"
-                {...register('url',{required: true})}
+                {...register('url', { required: true })}
               />
             </FormControl>
           </ModalBody>
