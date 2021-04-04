@@ -12,9 +12,6 @@ import {
 } from "@chakra-ui/react"
 
 const DataTable = ({ sites }) => {
-  sites.forEach(site => {
-    console.log(site.createAt)
-  })
   return (
       <Table colorScheme='twitter' bgColor='white' boxShadow='xl'>
         <Thead bgColor='whitesmoke'>
