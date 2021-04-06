@@ -1,4 +1,5 @@
 import { getAllSites, getAllFeedBack } from 'lib/db-admin'
+import Feedback from 'components/Feedback'
 
 export async function getStaticProps(context) {
   const siteId = context.params.siteId
@@ -26,7 +27,13 @@ export async function getStaticPaths() {
 
 
 const SiteFeedback = ({ initialFeedback })=>{
-  return 'hello site'
+  return(
+    initialFeedback.map(feedback => {
+      return(
+        <Feedback key={feedback.id} {...feedback}/>
+      )
+    })
+  )
 }
 
 export default SiteFeedback
