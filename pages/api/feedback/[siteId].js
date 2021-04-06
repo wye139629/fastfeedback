@@ -1,5 +1,4 @@
-import getAllFeedBack from 'lib/db-admin'
-import db from 'lib/firebase-admin'
+import { getAllFeedBack } from 'lib/db-admin'
 
 export default async (req, res) => {
   const siteId = req.query.siteId
