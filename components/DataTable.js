@@ -10,6 +10,7 @@ import {
   Td,
   TableCaption,
 } from "@chakra-ui/react"
+import NextLink from 'next/link'
 
 const DataTable = ({ sites }) => {
   return (
@@ -28,7 +29,11 @@ const DataTable = ({ sites }) => {
               <Tr key={site.url}>
                 <Td fontWeight='bold'>{site.site}</Td>
                 <Td>{site.url}</Td>
-                <Td>View FeedBack</Td>
+                <Td>
+                  <NextLink href='/sites/[siteId]' as={`/sites/${site.id}`}>
+                    <a>View FeedBack</a>
+                  </NextLink>
+                </Td>
                 <Td>{format(parseISO(site.createAt),'yyyy-MM-dd')}</Td>
               </Tr>
             );

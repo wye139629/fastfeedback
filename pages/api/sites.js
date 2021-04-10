@@ -2,7 +2,9 @@
 import { getAllSites } from 'lib/db-admin'
 
 export default async (_req, res) =>{
-  const allSites = await getAllSites()
-
-  res.status(200).json(allSites)
+  const { sites, error } = await getAllSites()
+  if(error){
+    res.status(500).json(error)
+  }
+  res.status(200).json(sites)
 }
